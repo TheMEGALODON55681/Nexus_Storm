@@ -106,8 +106,8 @@ pip install knowledge-storm
 
 **Or install from source (recommended for customization):**
 ```bash
-git clone https://github.com/TheMEGALODON55681/knowledge-storm-refactored.git
-cd knowledge-storm-refactored
+git clone https://github.com/TheMEGALODON55681/Nexus_Storm.git
+cd Nexus_Storm
 conda create -n storm python=3.11
 conda activate storm
 pip install -r requirements.txt
@@ -174,7 +174,7 @@ You will be prompted to enter a topic. The system will warm-start, begin its res
 ## Project Structure
 
 ```
-knowledge-storm-refactored/
+Nexus_Storm/
 │
 ├── knowledge_storm/
 │   ├── storm_wiki/          # Core STORM automated pipeline
