@@ -1,0 +1,43 @@
+name: Verify Install & Imports
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  install-and-import:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install package in editable mode
+        run: pip install -e .
+
+      - name: Verify core imports work
+        run: |
+          python -c "from knowledge_storm import STORMWikiRunner, STORMWikiRunnerArguments, STORMWikiLMConfigs"
+          python -c "from knowledge_storm.lm import GoogleModel"
+          python -c "from knowledge_storm.rm import DuckDuckGoSearchRM"
+          python -c "from knowledge_storm.utils import highlight_error, load_api_key"
+
+      - name: Verify example scripts are syntactically valid
+        run: |
+          python -m py_compile examples/storm_examples/run_storm_wiki_gemini.py
+          python -m py_compile examples/costorm_examples/run_costorm_gemini.py
